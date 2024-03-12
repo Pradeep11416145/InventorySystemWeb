@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Form</title>
+</head>
+<body>
+
+<h2>Product Form</h2>
+
+<form id="productForm" onsubmit="submitForm(event)">
+  <label for="productName">Product Name:</label><br>
+  <input type="text" id="productName" name="productName" value="Finastra" required><br>
+  
+  <label for="productSize">Product Size:</label><br>
+  <input type="text" id="productSize" name="productSize" value="7" required><br>
+  
+  <label for="productCode">Product Code:</label><br>
+  <input type="text" id="productCode" name="productCode" value="A56" required><br>
+  
+  <label for="productPrice">Product Price:</label><br>
+  <input type="text" id="productPrice" name="productPrice" value="67" required><br>
+  
+  <label for="productBrand">Product Brand:</label><br>
+  <input type="text" id="productBrand" name="productBrand" value="Nike" required><br>
+  
+  <label for="productType">Product Type:</label><br>
+  <input type="text" id="productType" name="productType" value="Shoe" required><br>
+  
+  <label for="productQuantity">Product Quantity:</label><br>
+  <input type="text" id="productQuantity" name="productQuantity" value="100" required><br><br>
+  
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+function submitForm(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+  
+  const formData = {
+    productName: document.getElementById("productName").value,
+    productSize: document.getElementById("productSize").value,
+    productCode: document.getElementById("productCode").value,
+    productPrice: document.getElementById("productPrice").value,
+    productBrand: document.getElementById("productBrand").value,
+    productType: document.getElementById("productType").value,
+    productQuantity: document.getElementById("productQuantity").value
+  };
+
+  fetch('http://localhost:9091/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text(); // Handle response as text
+  })
+  .then(data => {
+    console.log('Success:', data);
+    alert('Product saved successfully!');
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error saving product!');
+  });
+}
+</script>
+
+</body>
+</html>
